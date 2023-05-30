@@ -2,6 +2,7 @@ module my_addrx::MultiSender
 {
     use 0x1::coin;
     use 0x1::aptos_coin::AptosCoin; 
+    use 0x1::aptos_account;
     use 0x1::vector;
     use 0x1::signer;
 
@@ -14,17 +15,12 @@ module my_addrx::MultiSender
 
         assert!( amount*size <= from_acc_balance, E_NOT_ENOUGH_COINS);
 
-
         let i=0;
         while(i < size)
         {
             let to_address = *vector::borrow(& to,(i as u64));
-            coin::transfer<AptosCoin>(from,to_address,amount);
+            aptos_account::transfer(from,to_address,amount); 
             i=i+1;
         };
-
-        
     }
-
-
 }
